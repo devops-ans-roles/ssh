@@ -1,0 +1,15 @@
+---
+# tasks file for ssh
+- name: Process SSH accounts
+  ansible.builtin.include_tasks: "process_account.yaml"
+  with_items: "{{ ssh_user_accounts | flatten }}"
+
+- name: Disable SSH root login
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^PermitRootLogin'
+    line: 'PermitRootLogin no'
+    state: present
+    create: true
+  notify: restart sshd
+  when: disable_root
