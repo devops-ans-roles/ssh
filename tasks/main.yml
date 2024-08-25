@@ -11,5 +11,5 @@
     line: 'PermitRootLogin no'
     state: present
     create: true
-  notify: restart sshd
+  notify: restart ssh
   when: disable_root
